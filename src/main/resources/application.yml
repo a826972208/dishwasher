@@ -1,1 +1,22 @@
-
+server:
+  port: 8080
+  tomcat:
+    uri-encoding: UTF-8
+spring:
+  application:
+    name: dishwasher
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/dishwasher?useUnicode=true&characterEncoding=UTF-8&useSSL=true&verifyServerCertificate=false&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
