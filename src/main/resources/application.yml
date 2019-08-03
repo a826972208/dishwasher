@@ -6,7 +6,7 @@ spring:
   application:
     name: dishwasher
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/dishwasher?useUnicode=true&characterEncoding=UTF-8&useSSL=true&verifyServerCertificate=false&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://127.0.0.1:3306/dishwasher?useUnicode=true&characterEncoding=UTF-8&useSSL=true&verifyServerCertificate=false&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver

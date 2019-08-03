@@ -9,7 +9,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "account",uniqueConstraints = {@UniqueConstraint(columnNames = {"mobilePhone"})})
+@Table(name = "account",uniqueConstraints = {@UniqueConstraint(columnNames = {"mobile_phone"})})
 @Getter
 @Setter
 @DynamicInsert

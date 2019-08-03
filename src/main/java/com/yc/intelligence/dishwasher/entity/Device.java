@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "device",uniqueConstraints = {@UniqueConstraint(columnNames = {"mobilePhone"})})
+@Table(name = "device",uniqueConstraints = {@UniqueConstraint(columnNames = {"device_number"})})
 @Getter
 @Setter
 @DynamicInsert
