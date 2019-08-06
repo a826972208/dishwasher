@@ -7,6 +7,8 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "device",uniqueConstraints = {@UniqueConstraint(columnNames = {"device_number"})})
@@ -41,5 +43,21 @@ public class Device extends BaseModel {
     @JoinColumn(name = "account_id")
     private Account account;
 
+    @OneToMany(mappedBy = "device", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy(value = "id asc")
+    private List<DeviceSensor> items = new ArrayList<>();
 
+    public Device(String deviceNumber,String deviceName,String latitude,String longitude,String detailAddress,LocalDate expiryDate,Account account){
+        this.account = account;
+        this.detailAddress = detailAddress;
+        this.deviceName  = deviceName;
+        this.deviceNumber = deviceNumber;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.expiryDate = expiryDate;
+    }
+
+    public void changeExpiryDate(LocalDate expiryDate){
+        this.expiryDate = expiryDate;
+    }
 }
