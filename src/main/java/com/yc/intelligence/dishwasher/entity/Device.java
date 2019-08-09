@@ -60,4 +60,11 @@ public class Device extends BaseModel {
     public void changeExpiryDate(LocalDate expiryDate){
         this.expiryDate = expiryDate;
     }
+
+    public void editDevice(String deviceName,String latitude,String longitude,String detailAddress){
+        this.detailAddress = detailAddress;
+        this.deviceName  = deviceName;
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
 }
