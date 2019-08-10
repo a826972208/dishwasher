@@ -1,6 +1,7 @@
 package com.yc.intelligence.dishwasher.entity;
 
 import com.yc.intelligence.dishwasher.common.BaseModel;
+import com.yc.intelligence.dishwasher.entity.enums.DeviceSensorCodeEnum;
 import com.yc.intelligence.dishwasher.entity.enums.SensorStatusEnum;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
@@ -19,6 +20,10 @@ public class DeviceSensor extends BaseModel {
 
     private static final long serialVersionUID = -5655901234024333567L;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "sensor_code",length = 50)
+    private DeviceSensorCodeEnum sensorCode;//传感器编码
+
     @Column(name = "sensor_name",length = 50)
     private String sensorName;//传感器名称
 
@@ -34,7 +39,8 @@ public class DeviceSensor extends BaseModel {
     @NonNull
     protected Device device;
 
-    public DeviceSensor(String sensorName,SensorStatusEnum sensorStatus,Device device){
+    public DeviceSensor(DeviceSensorCodeEnum sensorCode, String sensorName,SensorStatusEnum sensorStatus,Device device){
+        this.sensorCode = sensorCode;
         this.sensorName = sensorName;
         this.sensorStatus = sensorStatus;
         this.device = device;
