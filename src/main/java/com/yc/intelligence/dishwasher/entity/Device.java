@@ -36,6 +36,9 @@ public class Device extends BaseModel {
     @Column(name = "detail_address",length = 200)
     private String detailAddress;//详细地址
 
+    @Column(name = "power")
+    private int power = 0;//设备电量
+
     @Column(name = "expiry_date",columnDefinition = "date")
     private LocalDate expiryDate;//到期时间
 

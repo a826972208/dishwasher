@@ -7,6 +7,7 @@ import com.yc.intelligence.dishwasher.entity.Device;
 import com.yc.intelligence.dishwasher.entity.DeviceSensor;
 import com.yc.intelligence.dishwasher.entity.enums.DeviceSensorCodeEnum;
 import com.yc.intelligence.dishwasher.entity.enums.SensorStatusEnum;
+import com.yc.intelligence.dishwasher.model.DeviceSensorVo;
 import com.yc.intelligence.dishwasher.model.DeviceVo;
 import com.yc.intelligence.dishwasher.repository.AccountRepository;
 import com.yc.intelligence.dishwasher.repository.DeviceRepository;
@@ -38,7 +39,7 @@ public class DeviceService {
         deviceRepository.save(device);
         List<DeviceSensor> sensorList = new ArrayList<>();
         for (DeviceSensorCodeEnum codeEnum: DeviceSensorCodeEnum.values()){
-            DeviceSensor sensor = new DeviceSensor(codeEnum,codeEnum.name(), SensorStatusEnum.NORMAL,device);
+            DeviceSensor sensor = new DeviceSensor(codeEnum,codeEnum.name(), SensorStatusEnum.NORMAL,device,null);
             sensorList.add(sensor);
         }
         deviceSensorRepository.saveAll(sensorList);
@@ -51,5 +52,22 @@ public class DeviceService {
         device.editDevice(deviceVo.getDeviceName(),deviceVo.getLatitude(),deviceVo.getLongitude(),deviceVo.getDetailAddress());
         return ResultUtil.success();
     }
+
+    @Transactional
+    public Result changeDeviceSensorStatus(Long deviceId,List<DeviceSensorVo> sensorVoList){
+        sensorVoList.stream().forEach(deviceSensorVo -> {
+            DeviceSensor sensor = deviceSensorRepository.findBySensorCodeAndDevice_Id(deviceSensorVo.getSensorCode().toString(),deviceId);
+            sensor.setSensorStatus(deviceSensorVo.getSensorStatus());
+        });
+        return ResultUtil.success();
+    }
+
+    @Transactional
+    public Result changeDeviceSensorEnabled(DeviceSensorVo sensorVo){
+        DeviceSensor sensor = deviceSensorRepository.getOne(sensorVo.getId());
+        sensor.chageEnabled(sensorVo.getEnabled());
+        return ResultUtil.success();
+    }
+
 
 }

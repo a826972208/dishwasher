@@ -27,6 +27,9 @@ public class DeviceSensor extends BaseModel {
     @Column(name = "sensor_name",length = 50)
     private String sensorName;//传感器名称
 
+    @Column(name = "sensor_value",length = 50)
+    private String sensorValue;//传感器值
+
     @Enumerated(EnumType.STRING)
     @Column(name = "sensor_status",length = 20)
     private SensorStatusEnum sensorStatus = SensorStatusEnum.NORMAL;//传感器状态
@@ -39,11 +42,12 @@ public class DeviceSensor extends BaseModel {
     @NonNull
     protected Device device;
 
-    public DeviceSensor(DeviceSensorCodeEnum sensorCode, String sensorName,SensorStatusEnum sensorStatus,Device device){
+    public DeviceSensor(DeviceSensorCodeEnum sensorCode, String sensorName,SensorStatusEnum sensorStatus,Device device,String sensorValue){
         this.sensorCode = sensorCode;
         this.sensorName = sensorName;
         this.sensorStatus = sensorStatus;
         this.device = device;
+        this.sensorValue = sensorValue;
     }
 
     public void changeStatus(SensorStatusEnum sensorStatus){
