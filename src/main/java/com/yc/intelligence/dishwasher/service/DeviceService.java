@@ -39,7 +39,7 @@ public class DeviceService {
         deviceRepository.save(device);
         List<DeviceSensor> sensorList = new ArrayList<>();
         for (DeviceSensorCodeEnum codeEnum: DeviceSensorCodeEnum.values()){
-            DeviceSensor sensor = new DeviceSensor(codeEnum,codeEnum.name(), SensorStatusEnum.NORMAL,device,null);
+            DeviceSensor sensor = new DeviceSensor(codeEnum,codeEnum.name, SensorStatusEnum.NORMAL,device,null);
             sensorList.add(sensor);
         }
         deviceSensorRepository.saveAll(sensorList);
@@ -56,7 +56,7 @@ public class DeviceService {
     @Transactional
     public Result changeDeviceSensorStatus(Long deviceId,List<DeviceSensorVo> sensorVoList){
         sensorVoList.stream().forEach(deviceSensorVo -> {
-            DeviceSensor sensor = deviceSensorRepository.findBySensorCodeAndDevice_Id(deviceSensorVo.getSensorCode().toString(),deviceId);
+            DeviceSensor sensor = deviceSensorRepository.findBySensorCodeAndDevice_Id(deviceSensorVo.getSensorCode().name(),deviceId);
             sensor.setSensorStatus(deviceSensorVo.getSensorStatus());
         });
         return ResultUtil.success();
