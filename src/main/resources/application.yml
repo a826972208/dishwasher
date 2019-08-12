@@ -1,14 +1,14 @@
 server:
-  port: 8080
+  port: 80
   tomcat:
     uri-encoding: UTF-8
 spring:
   application:
     name: dishwasher
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/dishwasher?useUnicode=true&characterEncoding=UTF-8&useSSL=true&verifyServerCertificate=false&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC
+    url: jdbc:mysql://47.98.39.88:3306/dishwasher?useUnicode=true&characterEncoding=UTF-8&useSSL=true&verifyServerCertificate=false&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC
     username: root
-    password: 123456
+    password: 890224Yc@
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database: mysql
