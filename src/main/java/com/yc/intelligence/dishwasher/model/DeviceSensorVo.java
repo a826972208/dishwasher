@@ -15,4 +15,5 @@ public class DeviceSensorVo implements Serializable {
     private String sensorName;
     private SensorStatusEnum sensorStatus;
     private Boolean enabled;
+    private String sensorValue;
 }

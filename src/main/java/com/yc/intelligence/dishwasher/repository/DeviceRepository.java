@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface DeviceRepository extends JpaRepository<Device,Long> {
     List<Device> findByAccount_Id(Long id);
+    Device findByDeviceNumber(String deviceNumber);
 }

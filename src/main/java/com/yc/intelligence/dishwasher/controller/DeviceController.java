@@ -34,4 +34,9 @@ public class DeviceController {
     public Result changeDeviceSensorEnabled(@RequestBody DeviceSensorVo sensorVo){
         return deviceService.changeDeviceSensorEnabled(sensorVo);
     }
+
+    @GetMapping("/detail")
+    public Result getDeviceDetail(String deviceNumber){
+        return deviceService.getDeviceDetail(deviceNumber);
+    }
 }

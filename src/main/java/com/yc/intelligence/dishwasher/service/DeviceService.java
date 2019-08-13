@@ -7,6 +7,7 @@ import com.yc.intelligence.dishwasher.entity.Device;
 import com.yc.intelligence.dishwasher.entity.DeviceSensor;
 import com.yc.intelligence.dishwasher.entity.enums.DeviceSensorCodeEnum;
 import com.yc.intelligence.dishwasher.entity.enums.SensorStatusEnum;
+import com.yc.intelligence.dishwasher.model.DeviceDetailVo;
 import com.yc.intelligence.dishwasher.model.DeviceSensorVo;
 import com.yc.intelligence.dishwasher.model.DeviceVo;
 import com.yc.intelligence.dishwasher.repository.AccountRepository;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -69,5 +71,32 @@ public class DeviceService {
         return ResultUtil.success();
     }
 
-
+    public Result getDeviceDetail(String deviceNumber){
+        Device device = deviceRepository.findByDeviceNumber(deviceNumber);
+        if (device != null){
+            DeviceDetailVo detailVo = new DeviceDetailVo();
+            detailVo.setDetailAddress(device.getDetailAddress());
+            detailVo.setDeviceName(device.getDeviceName());
+            detailVo.setDeviceNumber(device.getDeviceNumber());
+            detailVo.setExpiryDate(device.getExpiryDate());
+            detailVo.setId(device.getId());
+            detailVo.setLatitude(device.getLatitude());
+            detailVo.setLongitude(device.getLongitude());
+            detailVo.setPower(device.getPower());
+            List<DeviceSensorVo> sensorVoList = device.getItems().stream().map(deviceSensor -> {
+                DeviceSensorVo deviceSensorVo = new DeviceSensorVo();
+                deviceSensorVo.setEnabled(deviceSensor.isEnabled());
+                deviceSensorVo.setId(deviceSensor.getId());
+                deviceSensorVo.setSensorCode(deviceSensor.getSensorCode());
+                deviceSensorVo.setSensorName(deviceSensor.getSensorName());
+                deviceSensorVo.setSensorStatus(deviceSensor.getSensorStatus());
+                deviceSensorVo.setSensorValue(deviceSensor.getSensorValue());
+                return deviceSensorVo;
+            }).collect(Collectors.toList());
+            detailVo.setDeviceSensorVoList(sensorVoList);
+            return ResultUtil.success(detailVo);
+        }else {
+            return ResultUtil.success(new DeviceDetailVo());
+        }
+    }
 }
