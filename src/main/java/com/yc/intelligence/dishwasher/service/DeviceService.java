@@ -72,8 +72,8 @@ public class DeviceService {
     }
 
     @Transactional
-    public Result changeDevicePower(Long deviceId,int power){
-        Device device = deviceRepository.getOne(deviceId);
+    public Result changeDevicePower(String deviceNumber,int power){
+        Device device = deviceRepository.findByDeviceNumber(deviceNumber);
         device.setPower(power);
         return ResultUtil.success();
     }

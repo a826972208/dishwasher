@@ -35,9 +35,9 @@ public class DeviceController {
         return deviceService.changeDeviceSensorEnabled(sensorVo);
     }
 
-    @PostMapping("/change/power/{deviceId}")
-    public Result changeDevicePower(@PathVariable Long deviceId, int power){
-        return deviceService.changeDevicePower(deviceId,power);
+    @PostMapping("/change/power/{deviceNumber}")
+    public Result changeDevicePower(@PathVariable String deviceNumber, int power){
+        return deviceService.changeDevicePower(deviceNumber,power);
     }
 
     @GetMapping("/detail")
