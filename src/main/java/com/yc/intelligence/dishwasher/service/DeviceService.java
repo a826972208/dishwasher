@@ -57,7 +57,7 @@ public class DeviceService {
 
     @Transactional
     public Result changeDeviceSensorStatus(Long deviceId,List<DeviceSensorVo> sensorVoList){
-        sensorVoList.stream().forEach(deviceSensorVo -> {
+        sensorVoList.forEach(deviceSensorVo -> {
             DeviceSensor sensor = deviceSensorRepository.findBySensorCodeAndDevice_Id(deviceSensorVo.getSensorCode().name(),deviceId);
             sensor.setSensorStatus(deviceSensorVo.getSensorStatus());
         });
@@ -68,6 +68,13 @@ public class DeviceService {
     public Result changeDeviceSensorEnabled(DeviceSensorVo sensorVo){
         DeviceSensor sensor = deviceSensorRepository.getOne(sensorVo.getId());
         sensor.chageEnabled(sensorVo.getEnabled());
+        return ResultUtil.success();
+    }
+
+    @Transactional
+    public Result changeDevicePower(Long deviceId,int power){
+        Device device = deviceRepository.getOne(deviceId);
+        device.setPower(power);
         return ResultUtil.success();
     }
 

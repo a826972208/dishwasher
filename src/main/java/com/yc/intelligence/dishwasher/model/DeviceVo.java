@@ -14,5 +14,6 @@ public class DeviceVo implements Serializable {
     private String latitude;//纬度
     private String detailAddress;//详细地址
     private LocalDate expiryDate;//到期时间
+    private Integer power;//设备电量
     private Long accountId;//账户ID
 }
