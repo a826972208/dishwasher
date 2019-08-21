@@ -44,4 +44,9 @@ public class DeviceController {
     public Result getDeviceDetail(String deviceNumber){
         return deviceService.getDeviceDetail(deviceNumber);
     }
+
+    @GetMapping("/detail/{deviceNumber}")
+    public Result getDeviceDetail(@PathVariable String deviceNumber,String sensorCodes){
+        return deviceService.getDeviceDetail(deviceNumber,sensorCodes);
+    }
 }

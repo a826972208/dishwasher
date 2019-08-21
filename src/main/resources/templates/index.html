@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>设备编号</td>
+            <td>设备名称</td>
+            <td>到期时间</td>
+            <td>操作</td>
+        </tr>
+        <tr th:each="device:${deviceList}">
+            <td th:text="${device.deviceNumber}"></td>
+            <td th:text="${device.deviceName}"></td>
+            <td th:text="${device.expiryDate}"></td>
+            <td><a th:href="@{'/web/device/detail/'+${device.id}}">详情</a></td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -16,8 +16,11 @@ import com.yc.intelligence.dishwasher.repository.DeviceSensorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -103,7 +106,31 @@ public class DeviceService {
             detailVo.setDeviceSensorVoList(sensorVoList);
             return ResultUtil.success(detailVo);
         }else {
-            return ResultUtil.success(new DeviceDetailVo());
+            return ResultUtil.error(1,"设备不存在");
+        }
+    }
+
+    public Result getDeviceDetail(String deviceNumber,String sensorCodes){
+        Device device = deviceRepository.findByDeviceNumber(deviceNumber);
+        if (device != null){
+            HashMap<String,Object> result = new LinkedHashMap<>();
+            result.put("deviceNumber",device.getDeviceNumber());
+            result.put("longitude",device.getLongitude());
+            result.put("latitude",device.getLatitude());
+            result.put("power",device.getPower());
+            result.put("expiryDate",device.getExpiryDate());
+            result.put("sensorAble","0xFF");
+            if (StringUtils.hasText(sensorCodes)){
+                String[] array = sensorCodes.split(",");
+                for (String sensor : array) {
+                    result.put(sensor,device.getItems().stream().filter(deviceSensor -> deviceSensor.getSensorCode().name().equals(sensor))
+                            .collect(Collectors.toList()).get(0).getSensorStatus().code);
+
+                }
+            }
+            return ResultUtil.success(result);
+        }else {
+            return ResultUtil.error(1,"设备不存在");
         }
     }
 }

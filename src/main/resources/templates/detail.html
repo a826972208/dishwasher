@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <p><span>设备编号：</span><span th:text="${device.deviceNumber}"></span></p>
+    <p><span>设备名称：</span><span th:text="${device.deviceName}"></span></p>
+    <p><span>设备电量：</span><span th:text="${device.power}"></span></p>
+    <p><span>到期时间：</span><span th:text="${device.expiryDate}"></span></p>
+    <table>
+        <tr>
+            <td>传感器名称</td>
+            <td>传感器工作状态</td>
+            <td>传感器状态</td>
+            <td>传感器数值</td>
+        </tr>
+        <tr th:each="sensor:${sensorList}">
+            <td th:text="${sensor.sensorName}"></td>
+            <td th:text="${sensor.sensorStatus.name() == 'NORMAL'?'正常':'异常'}"></td>
+            <td th:text="${sensor.enabled == true ? '开启':'关闭'}"></td>
+            <td th:text="${sensor.sensorValue}"></td>
+        </tr>
+    </table>
+</body>
+</html>
