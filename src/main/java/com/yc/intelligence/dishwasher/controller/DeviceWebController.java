@@ -22,7 +22,7 @@ public class DeviceWebController {
         List<Device> deviceList = deviceRepository.findAll();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("deviceList",deviceList);
-        modelAndView.setViewName("/index.html");
+        modelAndView.setViewName("index.html");
         return modelAndView;
     }
 
@@ -32,7 +32,7 @@ public class DeviceWebController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("device",device);
         modelAndView.addObject("sensorList",device.getItems());
-        modelAndView.setViewName("/detail.html");
+        modelAndView.setViewName("detail.html");
         return modelAndView;
     }
 }
