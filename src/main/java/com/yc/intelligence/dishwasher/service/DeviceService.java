@@ -4,13 +4,16 @@ import com.yc.intelligence.dishwasher.common.Result;
 import com.yc.intelligence.dishwasher.common.ResultUtil;
 import com.yc.intelligence.dishwasher.entity.Account;
 import com.yc.intelligence.dishwasher.entity.Device;
+import com.yc.intelligence.dishwasher.entity.DevicePositionRecord;
 import com.yc.intelligence.dishwasher.entity.DeviceSensor;
 import com.yc.intelligence.dishwasher.entity.enums.DeviceSensorCodeEnum;
 import com.yc.intelligence.dishwasher.entity.enums.SensorStatusEnum;
 import com.yc.intelligence.dishwasher.model.DeviceDetailVo;
+import com.yc.intelligence.dishwasher.model.DevicePositionRecordVo;
 import com.yc.intelligence.dishwasher.model.DeviceSensorVo;
 import com.yc.intelligence.dishwasher.model.DeviceVo;
 import com.yc.intelligence.dishwasher.repository.AccountRepository;
+import com.yc.intelligence.dishwasher.repository.DevicePositionRecordRepository;
 import com.yc.intelligence.dishwasher.repository.DeviceRepository;
 import com.yc.intelligence.dishwasher.repository.DeviceSensorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +38,9 @@ public class DeviceService {
 
     @Autowired
     private DeviceSensorRepository deviceSensorRepository;
+
+    @Autowired
+    private DevicePositionRecordRepository devicePositionRecordRepository;
 
     @Transactional
     public Result addDevice(DeviceVo deviceVo){
@@ -132,5 +138,13 @@ public class DeviceService {
         }else {
             return ResultUtil.error(1,"设备不存在");
         }
+    }
+
+    @Transactional
+    public Result addDevicePositionRecord(DevicePositionRecordVo recordVo){
+        Device device = deviceRepository.findByDeviceNumber(recordVo.getDeviceNumber());
+        DevicePositionRecord record = new DevicePositionRecord(recordVo.getLongitude(),recordVo.getLatitude(),device);
+        devicePositionRecordRepository.save(record);
+        return ResultUtil.success();
     }
 }

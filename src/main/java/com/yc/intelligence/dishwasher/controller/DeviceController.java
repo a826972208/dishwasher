@@ -1,6 +1,7 @@
 package com.yc.intelligence.dishwasher.controller;
 
 import com.yc.intelligence.dishwasher.common.Result;
+import com.yc.intelligence.dishwasher.model.DevicePositionRecordVo;
 import com.yc.intelligence.dishwasher.model.DeviceSensorVo;
 import com.yc.intelligence.dishwasher.model.DeviceVo;
 import com.yc.intelligence.dishwasher.service.DeviceService;
@@ -48,5 +49,10 @@ public class DeviceController {
     @GetMapping("/detail/{deviceNumber}")
     public Result getDeviceDetail(@PathVariable String deviceNumber,String sensorCodes){
         return deviceService.getDeviceDetail(deviceNumber,sensorCodes);
+    }
+
+    @PostMapping("/position/record/add")
+    public Result addDevicePositionRecord(@RequestBody DevicePositionRecordVo vo){
+        return deviceService.addDevicePositionRecord(vo);
     }
 }
