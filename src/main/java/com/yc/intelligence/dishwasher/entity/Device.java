@@ -1,6 +1,7 @@
 package com.yc.intelligence.dishwasher.entity;
 
 import com.yc.intelligence.dishwasher.common.BaseModel;
+import com.yc.intelligence.dishwasher.entity.enums.DeviceRunStatusEnum;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -41,6 +42,10 @@ public class Device extends BaseModel {
 
     @Column(name = "expiry_date",columnDefinition = "date")
     private LocalDate expiryDate;//到期时间
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "run_state",length = 20)
+    private DeviceRunStatusEnum runState = DeviceRunStatusEnum.RUNNING;//设备运行状态
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
