@@ -61,4 +61,9 @@ public class DeviceController {
     public Result addDevicePositionRecord(@RequestBody DeviceEditVo vo){
         return deviceService.editDeviceInfo(vo);
     }
+
+    @PostMapping("/list")
+    public Result getDeviceList(int page,int size){
+        return deviceService.getDeviceByPage(page,size);
+    }
 }

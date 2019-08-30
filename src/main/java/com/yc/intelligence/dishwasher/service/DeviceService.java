@@ -1,5 +1,6 @@
 package com.yc.intelligence.dishwasher.service;
 
+import com.yc.intelligence.dishwasher.common.PageResponse;
 import com.yc.intelligence.dishwasher.common.Result;
 import com.yc.intelligence.dishwasher.common.ResultUtil;
 import com.yc.intelligence.dishwasher.entity.Account;
@@ -15,14 +16,15 @@ import com.yc.intelligence.dishwasher.repository.DevicePositionRecordRepository;
 import com.yc.intelligence.dishwasher.repository.DeviceRepository;
 import com.yc.intelligence.dishwasher.repository.DeviceSensorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -129,7 +131,6 @@ public class DeviceService {
                 for (String sensor : array) {
                     result.put(sensor,device.getItems().stream().filter(deviceSensor -> deviceSensor.getSensorCode().name().equals(sensor))
                             .collect(Collectors.toList()).get(0).getSensorStatus().code);
-
                 }
             }
             return ResultUtil.success(result);
@@ -160,9 +161,85 @@ public class DeviceService {
             if (StringUtils.hasText(editVo.getRunState())){
                 device.setRunState(DeviceRunStatusEnum.valueOf(editVo.getRunState()));
             }
+            if (editVo.getFaultCode() != null && editVo.getFaultCode().size()>0){
+                editVo.getFaultCode().forEach(s -> {
+                    DeviceSensor sensor;
+                    switch (s){
+                        case "1001"://门控故障
+                            sensor = deviceSensorRepository.findBySensorCodeAndDevice_Id(DeviceSensorCodeEnum.MEN_KONG_SENSOR.name(),device.getId());
+                            sensor.setSensorStatus(SensorStatusEnum.ABNORMAL);
+                            break;
+                        case "1002"://取框故障
+                            sensor = deviceSensorRepository.findBySensorCodeAndDevice_Id(DeviceSensorCodeEnum.QU_KUANG_SENSOR.name(),device.getId());
+                            sensor.setSensorStatus(SensorStatusEnum.ABNORMAL);
+                            break;
+                        case "1003"://漂洗温度传感器故障
+                            sensor = deviceSensorRepository.findBySensorCodeAndDevice_Id(DeviceSensorCodeEnum.DISINFECTION_TEMPERATURE_SENSOR.name(),device.getId());
+                            sensor.setSensorStatus(SensorStatusEnum.ABNORMAL);
+                            break;
+                        case "1004"://主洗温度传感器故障
+                            sensor = deviceSensorRepository.findBySensorCodeAndDevice_Id(DeviceSensorCodeEnum.WATER_TANK_TEMPERATURE_SENSOR.name(),device.getId());
+                            sensor.setSensorStatus(SensorStatusEnum.ABNORMAL);
+                            break;
+                        case "1005"://气包低水位故障
+                            sensor = deviceSensorRepository.findBySensorCodeAndDevice_Id(DeviceSensorCodeEnum.BUBBLE_HYDROPENIA_SENSOR.name(),device.getId());
+                            sensor.setSensorStatus(SensorStatusEnum.ABNORMAL);
+                            break;
+                        case "1006"://水箱低水位门控故障
+                            sensor = deviceSensorRepository.findBySensorCodeAndDevice_Id(DeviceSensorCodeEnum.WATER_TANK_HYDROPENIA_SENSOR.name(),device.getId());
+                            sensor.setSensorStatus(SensorStatusEnum.ABNORMAL);
+                            break;
+                        default:
+                            break;
+                    }
+                });
+                List<String> codeList = Arrays.asList("1001","1002","1003","1004","1005","1006");
+                codeList.removeAll(editVo.getFaultCode());
+                codeList.forEach(s -> {
+                    DeviceSensor sensor;
+                    switch (s){
+                        case "1001"://门控故障
+                            sensor = deviceSensorRepository.findBySensorCodeAndDevice_Id(DeviceSensorCodeEnum.MEN_KONG_SENSOR.name(),device.getId());
+                            sensor.setSensorStatus(SensorStatusEnum.NORMAL);
+                            break;
+                        case "1002"://取框故障
+                            sensor = deviceSensorRepository.findBySensorCodeAndDevice_Id(DeviceSensorCodeEnum.QU_KUANG_SENSOR.name(),device.getId());
+                            sensor.setSensorStatus(SensorStatusEnum.NORMAL);
+                            break;
+                        case "1003"://漂洗温度传感器故障
+                            sensor = deviceSensorRepository.findBySensorCodeAndDevice_Id(DeviceSensorCodeEnum.DISINFECTION_TEMPERATURE_SENSOR.name(),device.getId());
+                            sensor.setSensorStatus(SensorStatusEnum.NORMAL);
+                            break;
+                        case "1004"://主洗温度传感器故障
+                            sensor = deviceSensorRepository.findBySensorCodeAndDevice_Id(DeviceSensorCodeEnum.WATER_TANK_TEMPERATURE_SENSOR.name(),device.getId());
+                            sensor.setSensorStatus(SensorStatusEnum.NORMAL);
+                            break;
+                        case "1005"://气包低水位故障
+                            sensor = deviceSensorRepository.findBySensorCodeAndDevice_Id(DeviceSensorCodeEnum.BUBBLE_HYDROPENIA_SENSOR.name(),device.getId());
+                            sensor.setSensorStatus(SensorStatusEnum.NORMAL);
+                            break;
+                        case "1006"://水箱低水位门控故障
+                            sensor = deviceSensorRepository.findBySensorCodeAndDevice_Id(DeviceSensorCodeEnum.WATER_TANK_HYDROPENIA_SENSOR.name(),device.getId());
+                            sensor.setSensorStatus(SensorStatusEnum.NORMAL);
+                            break;
+                        default:
+                            break;
+                    }
+                });
+            }else {
+                device.getItems().forEach(deviceSensor -> {
+                    deviceSensor.setSensorStatus(SensorStatusEnum.NORMAL);
+                });
+            }
             return ResultUtil.success();
         }else {
             return ResultUtil.error(1,"设备不存在");
         }
+    }
+
+    public Result getDeviceByPage(int page,int size){
+        Pageable pageable = PageRequest.of(page,size);
+        Page<Device> devicePage = deviceRepository.findAll(pageable);
+        return ResultUtil.success(new PageResponse<Device>(devicePage));
     }
 }
