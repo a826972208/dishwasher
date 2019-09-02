@@ -29,4 +29,16 @@ public class PageResponse<T> implements Serializable {
         this.isFirst = page.isFirst();
         this.isLast = page.isLast();
     }
+
+    public PageResponse(Page page,List<T> content){
+        this.content = content;
+        this.pageNumber = page.getNumber();
+        this.pageSize = page.getSize();
+        this.totalPages = page.getTotalPages();
+        this.totalElements = page.getTotalElements();
+        this.pageOfElements = page.getNumberOfElements();
+        this.hasContent = page.getSize()== 0 ? false : true;
+        this.isFirst = page.isFirst();
+        this.isLast = page.isLast();
+    }
 }

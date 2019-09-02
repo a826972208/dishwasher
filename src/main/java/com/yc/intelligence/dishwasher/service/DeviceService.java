@@ -227,9 +227,7 @@ public class DeviceService {
                     }
                 });
             }else {
-                device.getItems().forEach(deviceSensor -> {
-                    deviceSensor.setSensorStatus(SensorStatusEnum.NORMAL);
-                });
+                device.getItems().forEach(deviceSensor -> deviceSensor.setSensorStatus(SensorStatusEnum.NORMAL));
             }
             return ResultUtil.success();
         }else {
@@ -240,6 +238,7 @@ public class DeviceService {
     public Result getDeviceByPage(int page,int size){
         Pageable pageable = PageRequest.of(page,size);
         Page<Device> devicePage = deviceRepository.findAll(pageable);
-        return ResultUtil.success(new PageResponse<Device>(devicePage));
+        List<DeviceListVo> list = devicePage.getContent().stream().map(DeviceListVo::new).collect(Collectors.toList());
+        return ResultUtil.success(new PageResponse<>(devicePage,list));
     }
 }
