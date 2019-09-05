@@ -1,5 +1,6 @@
 package com.yc.intelligence.dishwasher.model;
 
+import com.yc.intelligence.dishwasher.entity.enums.DeviceRunStatusEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -17,5 +18,6 @@ public class DeviceDetailVo implements Serializable {
     private String detailAddress;//详细地址
     private int power = 0;//设备电量
     private LocalDate expiryDate;//到期时间
+    private DeviceRunStatusEnum runState;//设备运行状态
     private List<DeviceSensorVo> deviceSensorVoList;
 }
