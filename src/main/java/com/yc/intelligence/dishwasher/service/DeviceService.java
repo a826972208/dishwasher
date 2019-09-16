@@ -87,6 +87,18 @@ public class DeviceService {
         return ResultUtil.success();
     }
 
+
+    @Transactional
+    public Result changeDeviceRunState(String deviceNumber,boolean isOpen){
+        Device device = deviceRepository.findByDeviceNumber(deviceNumber);
+        if (isOpen){
+            device.setRunState(DeviceRunStatusEnum.RUNNING);
+        }else {
+            device.setRunState(DeviceRunStatusEnum.STOP);
+        }
+        return ResultUtil.success();
+    }
+
     public Result getDeviceDetail(String deviceNumber){
         Device device = deviceRepository.findByDeviceNumber(deviceNumber);
         if (device != null){

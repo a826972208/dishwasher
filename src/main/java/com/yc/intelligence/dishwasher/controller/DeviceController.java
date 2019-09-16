@@ -42,6 +42,11 @@ public class DeviceController {
         return deviceService.changeDevicePower(deviceNumber,power);
     }
 
+    @PostMapping("/change/run/status/{deviceNumber}")
+    public Result changeDevicePower(@PathVariable String deviceNumber, boolean isOpen){
+        return deviceService.changeDeviceRunState(deviceNumber,isOpen);
+    }
+
     @GetMapping("/detail")
     public Result getDeviceDetail(String deviceNumber){
         return deviceService.getDeviceDetail(deviceNumber);
