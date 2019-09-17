@@ -239,7 +239,8 @@ public class DeviceService {
                             break;
                     }
                 });
-            }else {
+            }
+            if (editVo.getFaultCode() != null && editVo.getFaultCode().size()==0){
                 device.getItems().forEach(deviceSensor -> deviceSensor.setSensorStatus(SensorStatusEnum.NORMAL));
             }
             return ResultUtil.success();
