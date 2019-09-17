@@ -111,7 +111,7 @@ public class DeviceService {
             detailVo.setLatitude(device.getLatitude());
             detailVo.setLongitude(device.getLongitude());
             detailVo.setPower(device.getPower());
-            detailVo.setRunState(detailVo.getRunState());
+            detailVo.setRunState(device.getRunState());
             List<DeviceSensorVo> sensorVoList = device.getItems().stream().map(deviceSensor -> {
                 DeviceSensorVo deviceSensorVo = new DeviceSensorVo();
                 deviceSensorVo.setEnabled(deviceSensor.isEnabled());
