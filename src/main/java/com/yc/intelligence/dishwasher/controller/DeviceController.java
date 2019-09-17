@@ -22,9 +22,9 @@ public class DeviceController {
         return deviceService.addDevice(deviceVo);
     }
 
-    @PostMapping("/edit/{deviceId}")
-    public Result editDevice(@PathVariable Long deviceId, @RequestBody DeviceVo deviceVo){
-        return deviceService.editDevice(deviceId,deviceVo);
+    @PostMapping("/edit/{deviceNumber}")
+    public Result editDevice(@PathVariable String deviceNumber, @RequestBody DeviceVo deviceVo){
+        return deviceService.editDevice(deviceNumber,deviceVo);
     }
 
     @PostMapping("/change/status/{deviceId}")

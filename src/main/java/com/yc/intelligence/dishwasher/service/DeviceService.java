@@ -58,8 +58,8 @@ public class DeviceService {
     }
 
     @Transactional
-    public Result editDevice(Long deviceId,DeviceVo deviceVo){
-        Device device = deviceRepository.getOne(deviceId);
+    public Result editDevice(String deviceNumber,DeviceVo deviceVo){
+        Device device = deviceRepository.findByDeviceNumber(deviceNumber);
         device.editDevice(deviceVo.getDeviceName(),deviceVo.getLatitude(),deviceVo.getLongitude(),deviceVo.getDetailAddress());
         return ResultUtil.success();
     }
