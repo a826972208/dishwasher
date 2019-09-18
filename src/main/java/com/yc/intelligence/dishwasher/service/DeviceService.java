@@ -139,6 +139,7 @@ public class DeviceService {
             result.put("power",device.getPower());
             result.put("expiryDate",device.getExpiryDate());
             result.put("sensorAble","0xFF");
+            result.put("deviceStatus",device.getRunState());
             if (StringUtils.hasText(sensorCodes)){
                 String[] array = sensorCodes.split(",");
                 for (String sensor : array) {
