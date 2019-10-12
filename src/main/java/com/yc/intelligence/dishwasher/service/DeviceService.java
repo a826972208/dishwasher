@@ -24,6 +24,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -255,5 +257,16 @@ public class DeviceService {
         Page<Device> devicePage = deviceRepository.findAll(pageable);
         List<DeviceListVo> list = devicePage.getContent().stream().map(DeviceListVo::new).collect(Collectors.toList());
         return ResultUtil.success(new PageResponse<>(devicePage,list));
+    }
+
+    @Transactional
+    public void updateDevicesStatus(){
+        List<Device> list = deviceRepository.findAll();
+        list.forEach(device -> {
+            Duration duration = Duration.between(device.getUpdateTime(),LocalDateTime.now());
+            if (duration.toMinutes() > 10){
+                device.setRunState(DeviceRunStatusEnum.STOP);
+            }
+        });
     }
 }
