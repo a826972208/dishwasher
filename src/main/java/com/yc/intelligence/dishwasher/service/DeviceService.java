@@ -266,6 +266,8 @@ public class DeviceService {
             Duration duration = Duration.between(device.getUpdateTime(),LocalDateTime.now());
             if (duration.toMinutes() > 10){
                 device.setRunState(DeviceRunStatusEnum.STOP);
+            }else {
+                device.setRunState(DeviceRunStatusEnum.RUNNING);
             }
         });
     }
