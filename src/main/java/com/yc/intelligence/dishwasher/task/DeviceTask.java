@@ -12,7 +12,7 @@ public class DeviceTask {
     private DeviceService deviceService;
 
     @Async
-    @Scheduled(cron = "0 0/10 * * * ?")
+    @Scheduled(cron = "0 0/1 * * * ?")
     public void updateDeviceRunStatus(){
         deviceService.updateDevicesStatus();
     }
