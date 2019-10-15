@@ -57,8 +57,8 @@ public class Device extends BaseModel {
     @JoinColumn(name = "account_id")
     private Account account;
 
-    @Column(name = "last_update_time",nullable = false)
-    private LocalDateTime lastUpdateTime = LocalDateTime.now();
+    @Column(name = "last_update_time")
+    private LocalDateTime lastUpdateTime;
 
     @OneToMany(mappedBy = "device", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy(value = "id asc")
