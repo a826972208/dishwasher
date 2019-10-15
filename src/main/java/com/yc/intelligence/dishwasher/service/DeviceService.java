@@ -7,6 +7,7 @@ import com.yc.intelligence.dishwasher.entity.Account;
 import com.yc.intelligence.dishwasher.entity.Device;
 import com.yc.intelligence.dishwasher.entity.DevicePositionRecord;
 import com.yc.intelligence.dishwasher.entity.DeviceSensor;
+import com.yc.intelligence.dishwasher.entity.enums.DeviceOnlineStateEnum;
 import com.yc.intelligence.dishwasher.entity.enums.DeviceRunStatusEnum;
 import com.yc.intelligence.dishwasher.entity.enums.DeviceSensorCodeEnum;
 import com.yc.intelligence.dishwasher.entity.enums.SensorStatusEnum;
@@ -114,6 +115,7 @@ public class DeviceService {
             detailVo.setLongitude(device.getLongitude());
             detailVo.setPower(device.getPower());
             detailVo.setRunState(device.getRunState());
+            detailVo.setOnlineState(device.getOnlineState());
             List<DeviceSensorVo> sensorVoList = device.getItems().stream().map(deviceSensor -> {
                 DeviceSensorVo deviceSensorVo = new DeviceSensorVo();
                 deviceSensorVo.setEnabled(deviceSensor.isEnabled());
@@ -265,9 +267,9 @@ public class DeviceService {
         list.forEach(device -> {
             Duration duration = Duration.between(device.getUpdateTime(),LocalDateTime.now());
             if (duration.toMinutes() > 10){
-                device.setRunState(DeviceRunStatusEnum.STOP);
+                device.setOnlineState(DeviceOnlineStateEnum.OFFLINE);
             }else {
-                device.setRunState(DeviceRunStatusEnum.RUNNING);
+                device.setOnlineState(DeviceOnlineStateEnum.ONLINE);
             }
         });
     }

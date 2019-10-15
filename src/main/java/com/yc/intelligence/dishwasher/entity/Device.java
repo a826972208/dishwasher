@@ -1,6 +1,7 @@
 package com.yc.intelligence.dishwasher.entity;
 
 import com.yc.intelligence.dishwasher.common.BaseModel;
+import com.yc.intelligence.dishwasher.entity.enums.DeviceOnlineStateEnum;
 import com.yc.intelligence.dishwasher.entity.enums.DeviceRunStatusEnum;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
@@ -46,6 +47,10 @@ public class Device extends BaseModel {
     @Enumerated(EnumType.STRING)
     @Column(name = "run_state",length = 20)
     private DeviceRunStatusEnum runState = DeviceRunStatusEnum.RUNNING;//设备运行状态
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "online_state",length = 20)
+    private DeviceOnlineStateEnum onlineState = DeviceOnlineStateEnum.OFFLINE;//设备在线状态
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
