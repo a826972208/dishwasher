@@ -179,6 +179,7 @@ public class DeviceService {
             if (StringUtils.hasText(editVo.getRunState())){
                 device.setRunState(DeviceRunStatusEnum.valueOf(editVo.getRunState()));
             }
+            device.setLastUpdateTime(LocalDateTime.now());
             if (editVo.getFaultCode() != null && editVo.getFaultCode().size()>0){
                 editVo.getFaultCode().forEach(s -> {
                     DeviceSensor sensor;
@@ -265,7 +266,7 @@ public class DeviceService {
     public void updateDevicesStatus(){
         List<Device> list = deviceRepository.findAll();
         list.forEach(device -> {
-            Duration duration = Duration.between(device.getUpdateTime(),LocalDateTime.now());
+            Duration duration = Duration.between(device.getLastUpdateTime(),LocalDateTime.now());
             if (duration.toMinutes() > 10){
                 device.setOnlineState(DeviceOnlineStateEnum.OFFLINE);
             }else {
