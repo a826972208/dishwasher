@@ -7,10 +7,7 @@ import com.yc.intelligence.dishwasher.entity.Account;
 import com.yc.intelligence.dishwasher.entity.Device;
 import com.yc.intelligence.dishwasher.entity.DevicePositionRecord;
 import com.yc.intelligence.dishwasher.entity.DeviceSensor;
-import com.yc.intelligence.dishwasher.entity.enums.DeviceOnlineStateEnum;
-import com.yc.intelligence.dishwasher.entity.enums.DeviceRunStatusEnum;
-import com.yc.intelligence.dishwasher.entity.enums.DeviceSensorCodeEnum;
-import com.yc.intelligence.dishwasher.entity.enums.SensorStatusEnum;
+import com.yc.intelligence.dishwasher.entity.enums.*;
 import com.yc.intelligence.dishwasher.model.*;
 import com.yc.intelligence.dishwasher.repository.AccountRepository;
 import com.yc.intelligence.dishwasher.repository.DevicePositionRecordRepository;
@@ -96,8 +93,10 @@ public class DeviceService {
         Device device = deviceRepository.findByDeviceNumber(deviceNumber);
         if (isOpen){
             device.setRunState(DeviceRunStatusEnum.RUNNING);
+            device.setDowntimeType(null);
         }else {
             device.setRunState(DeviceRunStatusEnum.STOP);
+            device.setDowntimeType(DeviceDownTimeTypeEnum.INSTRUCTIONS);
         }
         return ResultUtil.success();
     }
@@ -116,6 +115,7 @@ public class DeviceService {
             detailVo.setPower(device.getPower());
             detailVo.setRunState(device.getRunState());
             detailVo.setOnlineState(device.getOnlineState());
+            detailVo.setDowntimeType(device.getDowntimeType());
             List<DeviceSensorVo> sensorVoList = device.getItems().stream().map(deviceSensor -> {
                 DeviceSensorVo deviceSensorVo = new DeviceSensorVo();
                 deviceSensorVo.setEnabled(deviceSensor.isEnabled());
@@ -144,6 +144,7 @@ public class DeviceService {
             result.put("expiryDate",device.getExpiryDate());
             result.put("sensorAble","0xFF");
             result.put("deviceStatus",device.getRunState());
+            result.put("downtimeType",device.getDowntimeType());
             if (StringUtils.hasText(sensorCodes)){
                 String[] array = sensorCodes.split(",");
                 for (String sensor : array) {
@@ -177,6 +178,11 @@ public class DeviceService {
                 device.setPower(editVo.getPower());
             }
             if (StringUtils.hasText(editVo.getRunState())){
+                if ("STOP".equals(editVo.getRunState())){
+                    device.setDowntimeType(DeviceDownTimeTypeEnum.POWER_FAILURE);
+                }else {
+                    device.setDowntimeType(null);
+                }
                 device.setRunState(DeviceRunStatusEnum.valueOf(editVo.getRunState()));
             }
             device.setLastUpdateTime(LocalDateTime.now());

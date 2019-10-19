@@ -1,5 +1,6 @@
 package com.yc.intelligence.dishwasher.model;
 
+import com.yc.intelligence.dishwasher.entity.enums.DeviceDownTimeTypeEnum;
 import com.yc.intelligence.dishwasher.entity.enums.DeviceOnlineStateEnum;
 import com.yc.intelligence.dishwasher.entity.enums.DeviceRunStatusEnum;
 import lombok.Data;
@@ -21,5 +22,6 @@ public class DeviceDetailVo implements Serializable {
     private LocalDate expiryDate;//到期时间
     private DeviceRunStatusEnum runState;//设备运行状态
     private DeviceOnlineStateEnum onlineState;//设备在线状态
+    private DeviceDownTimeTypeEnum downtimeType;//设备停机类型
     private List<DeviceSensorVo> deviceSensorVoList;
 }

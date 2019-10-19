@@ -1,6 +1,7 @@
 package com.yc.intelligence.dishwasher.entity;
 
 import com.yc.intelligence.dishwasher.common.BaseModel;
+import com.yc.intelligence.dishwasher.entity.enums.DeviceDownTimeTypeEnum;
 import com.yc.intelligence.dishwasher.entity.enums.DeviceOnlineStateEnum;
 import com.yc.intelligence.dishwasher.entity.enums.DeviceRunStatusEnum;
 import lombok.*;
@@ -48,6 +49,10 @@ public class Device extends BaseModel {
     @Enumerated(EnumType.STRING)
     @Column(name = "run_state",length = 20)
     private DeviceRunStatusEnum runState = DeviceRunStatusEnum.RUNNING;//设备运行状态
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "downtime_type",length = 20)
+    private DeviceDownTimeTypeEnum downtimeType;//设备停机类型
 
     @Enumerated(EnumType.STRING)
     @Column(name = "online_state",length = 20)
