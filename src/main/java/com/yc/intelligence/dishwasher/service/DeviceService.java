@@ -122,7 +122,11 @@ public class DeviceService {
                 deviceSensorVo.setId(deviceSensor.getId());
                 deviceSensorVo.setSensorCode(deviceSensor.getSensorCode());
                 deviceSensorVo.setSensorName(deviceSensor.getSensorName());
-                deviceSensorVo.setSensorStatus(deviceSensor.getSensorStatus());
+                if (DeviceRunStatusEnum.STOP.equals(device.getRunState()) && DeviceDownTimeTypeEnum.POWER_FAILURE.equals(device.getDowntimeType())){
+                    deviceSensorVo.setSensorStatus(SensorStatusEnum.ABNORMAL);
+                }else {
+                    deviceSensorVo.setSensorStatus(deviceSensor.getSensorStatus());
+                }
                 deviceSensorVo.setSensorValue(deviceSensor.getSensorValue());
                 return deviceSensorVo;
             }).collect(Collectors.toList());
