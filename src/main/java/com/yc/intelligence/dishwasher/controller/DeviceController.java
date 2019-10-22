@@ -1,6 +1,7 @@
 package com.yc.intelligence.dishwasher.controller;
 
 import com.yc.intelligence.dishwasher.common.Result;
+import com.yc.intelligence.dishwasher.common.ResultUtil;
 import com.yc.intelligence.dishwasher.model.DeviceEditVo;
 import com.yc.intelligence.dishwasher.model.DevicePositionRecordVo;
 import com.yc.intelligence.dishwasher.model.DeviceSensorVo;
@@ -9,6 +10,9 @@ import com.yc.intelligence.dishwasher.service.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -70,5 +74,13 @@ public class DeviceController {
     @PostMapping("/list")
     public Result getDeviceList(int page,int size){
         return deviceService.getDeviceByPage(page,size);
+    }
+
+    @GetMapping("/getCurrentTime")
+    public Result getCurrentTime(){
+        HashMap<String,Object> map = new HashMap<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        map.put("datetime", formatter.format(LocalDateTime.now()));
+        return ResultUtil.success(map);
     }
 }
