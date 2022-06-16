@@ -25,7 +25,7 @@ public class PageResponse<T> implements Serializable {
         this.totalPages = page.getTotalPages();
         this.totalElements = page.getTotalElements();
         this.pageOfElements = page.getNumberOfElements();
-        this.hasContent = page.getSize()== 0 ? false : true;
+        this.hasContent = page.getSize() != 0;
         this.isFirst = page.isFirst();
         this.isLast = page.isLast();
     }
@@ -37,7 +37,7 @@ public class PageResponse<T> implements Serializable {
         this.totalPages = page.getTotalPages();
         this.totalElements = page.getTotalElements();
         this.pageOfElements = page.getNumberOfElements();
-        this.hasContent = page.getSize()== 0 ? false : true;
+        this.hasContent = page.getSize() != 0;
         this.isFirst = page.isFirst();
         this.isLast = page.isLast();
     }
